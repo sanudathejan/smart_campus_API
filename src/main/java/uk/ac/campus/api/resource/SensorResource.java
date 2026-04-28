@@ -6,9 +6,9 @@ import uk.ac.campus.api.model.Room;
 import uk.ac.campus.api.model.Sensor;
 import uk.ac.campus.api.store.InMemoryRegistry;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -225,3 +225,4 @@ public class SensorResource {
         return s == null || s.trim().isEmpty();
     }
 }
+

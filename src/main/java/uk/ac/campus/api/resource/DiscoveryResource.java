@@ -1,48 +1,71 @@
 package uk.ac.campus.api.resource;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
-/**
- * Discovery endpoint — GET /api/v1
- *
- * Returns API metadata including version, administrator contact, and a
- * hypermedia map of primary resource collections.
- *
- * HATEOAS rationale (answered in report):
- * Hypermedia As The Engine Of Application State (HATEOAS) embeds navigation
- * links directly inside API responses. Instead of relying on external static
- * documentation that may drift out of sync with the implementation, clients
- * discover available operations at runtime by following the links the server
- * provides. This decouples the client from hard-coded URL assumptions —
- * if the server restructures its routing, clients that navigate via links
- * continue to work without updates, because they always follow what the server
- * tells them rather than what a document told them yesterday.
- */
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DiscoveryResource {
 
     @GET
-    public Response getApiInfo() {
-
-        Map<String, String> resources = new LinkedHashMap<>();
-        resources.put("rooms",   "/api/v1/rooms");
-        resources.put("sensors", "/api/v1/sensors");
+    public Response getApiInfo(@Context UriInfo uriInfo) {
+        String apiRoot = normaliseApiRoot(uriInfo.getAbsolutePath().toString());
 
         Map<String, Object> payload = new LinkedHashMap<>();
-        payload.put("name",        "Campus Room & Sensor Management API");
-        payload.put("version",     "1.0");
-        payload.put("status",      "ONLINE");
-        payload.put("description", "RESTful API for managing university campus infrastructure");
-        payload.put("contact",     "campus-admin@university.ac.uk");
-        payload.put("resources",   resources);
+        payload.put("api", "Smart Campus Sensor and Room Management API");
+        payload.put("version", "1.0.0");
+        payload.put("description", "RESTful API for managing campus rooms and IoT sensors.");
+        payload.put("timestamp", Instant.now().toString());
+        payload.put("contact", contactDetails());
+        payload.put("resources", resourceLinks(apiRoot));
 
         return Response.ok(payload).build();
     }
+
+    private Map<String, String> contactDetails() {
+        Map<String, String> contact = new LinkedHashMap<>();
+        contact.put("name", "Campus Facilities Team");
+        contact.put("email", "admin@smartcampus.ac.uk");
+        contact.put("department", "Estates and Facilities Management");
+        return contact;
+    }
+
+    private Map<String, Object> resourceLinks(String apiRoot) {
+        Map<String, Object> resources = new LinkedHashMap<>();
+        resources.put("rooms", resource(apiRoot + "/rooms", "GET, POST",
+                "List all rooms or create a new room"));
+        resources.put("room", resource(apiRoot + "/rooms/{roomId}", "GET, DELETE",
+                "Retrieve or decommission a specific room"));
+        resources.put("sensors", resource(apiRoot + "/sensors", "GET, POST",
+                "List sensors (supports ?type= filter) or register a new sensor"));
+        resources.put("sensor", resource(apiRoot + "/sensors/{sensorId}", "GET",
+                "Retrieve a specific sensor by ID"));
+        resources.put("readings", resource(apiRoot + "/sensors/{sensorId}/readings", "GET, POST",
+                "Get or append historical readings for a sensor"));
+        return resources;
+    }
+
+    private Map<String, String> resource(String href, String methods, String description) {
+        Map<String, String> resource = new LinkedHashMap<>();
+        resource.put("href", href);
+        resource.put("methods", methods);
+        resource.put("description", description);
+        return resource;
+    }
+
+    private String normaliseApiRoot(String absolutePath) {
+        if (absolutePath.endsWith("/")) {
+            return absolutePath.substring(0, absolutePath.length() - 1);
+        }
+        return absolutePath;
+    }
 }
+

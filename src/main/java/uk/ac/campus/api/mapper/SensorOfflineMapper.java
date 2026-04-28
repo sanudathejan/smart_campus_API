@@ -3,10 +3,10 @@ package uk.ac.campus.api.mapper;
 import uk.ac.campus.api.exception.SensorOfflineException;
 import uk.ac.campus.api.model.ErrorResponse;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * Converts SensorOfflineException into HTTP 403 Forbidden.
@@ -28,3 +28,4 @@ public class SensorOfflineMapper implements ExceptionMapper<SensorOfflineExcepti
                 .build();
     }
 }
+
