@@ -4,9 +4,9 @@ import uk.ac.campus.api.model.Room;
 import uk.ac.campus.api.model.Sensor;
 import uk.ac.campus.api.model.Reading;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Singleton in-memory registry for all Campus API data.
@@ -64,10 +64,10 @@ public final class InMemoryRegistry {
     // ── Reading helpers ──────────────────────────────────────────────────────
 
     public static List<Reading> readingsFor(String sensorId) {
-        return READINGS.computeIfAbsent(sensorId, k -> new ArrayList<>());
+        return READINGS.computeIfAbsent(sensorId, k -> new CopyOnWriteArrayList<>());
     }
 
     public static void appendReading(String sensorId, Reading reading) {
-        READINGS.computeIfAbsent(sensorId, k -> new ArrayList<>()).add(reading);
+        READINGS.computeIfAbsent(sensorId, k -> new CopyOnWriteArrayList<>()).add(reading);
     }
 }

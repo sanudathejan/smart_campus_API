@@ -46,8 +46,8 @@ public class DiscoveryResource {
                 "Retrieve or decommission a specific room"));
         resources.put("sensors", resource(apiRoot + "/sensors", "GET, POST",
                 "List sensors (supports ?type= filter) or register a new sensor"));
-        resources.put("sensor", resource(apiRoot + "/sensors/{sensorId}", "GET",
-                "Retrieve a specific sensor by ID"));
+        resources.put("sensor", resource(apiRoot + "/sensors/{sensorId}", "GET, PUT, DELETE",
+                "Retrieve, update, or remove a specific sensor by ID"));
         resources.put("readings", resource(apiRoot + "/sensors/{sensorId}/readings", "GET, POST",
                 "Get or append historical readings for a sensor"));
         return resources;

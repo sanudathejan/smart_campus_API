@@ -1,5 +1,7 @@
 package uk.ac.campus.api.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 /**
  * Represents a sensor device installed inside a campus room.
  * Valid status values: ACTIVE | MAINTENANCE | OFFLINE
@@ -9,6 +11,7 @@ public class Sensor {
     private String id;             // Unique identifier, e.g. "CO2-042"
     private String type;           // Category: Temperature, CO2, Occupancy, etc.
     private String status;         // Operational state
+    @JsonAlias("currentValue")
     private double latestReading;  // Most recent measurement value
     private String roomId;         // ID of the room this sensor belongs to
 

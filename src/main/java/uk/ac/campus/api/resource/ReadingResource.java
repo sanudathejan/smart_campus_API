@@ -94,12 +94,17 @@ public class ReadingResource {
                     "Request body is required.");
             return Response.status(Response.Status.BAD_REQUEST).entity(err).build();
         }
+        if (reading.getMeasurement() == null) {
+            ErrorResponse err = new ErrorResponse(400, "Bad Request",
+                    "Field 'measurement' is required.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(err).build();
+        }
 
         if (reading.getId() == null || reading.getId().trim().isEmpty()) {
             reading.setId(UUID.randomUUID().toString());
         }
 
-        if (reading.getCapturedAt() <= 0) {
+        if (reading.getCapturedAt() == null || reading.getCapturedAt() <= 0) {
             reading.setCapturedAt(System.currentTimeMillis());
         }
 

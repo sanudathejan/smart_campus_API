@@ -10,6 +10,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -58,6 +59,7 @@ public class SensorResource {
                     .collect(Collectors.toList());
         }
 
+        result.sort(Comparator.comparing(Sensor::getId, Comparator.nullsLast(String::compareToIgnoreCase)));
         return Response.ok(result).build();
     }
 
@@ -147,6 +149,9 @@ public class SensorResource {
         Sensor existing = InMemoryRegistry.findSensor(sensorId);
         if (existing == null) {
             return notFound("No sensor found with id '" + sensorId + "'.");
+        }
+        if (update == null) {
+            return badRequest("Request body is required.");
         }
 
         if (!blank(update.getStatus())) {

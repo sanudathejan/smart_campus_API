@@ -9,6 +9,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,7 @@ public class RoomResource {
     @GET
     public Response listRooms() {
         List<Room> all = new ArrayList<>(InMemoryRegistry.rooms().values());
+        all.sort(Comparator.comparing(Room::getId, Comparator.nullsLast(String::compareToIgnoreCase)));
         return Response.ok(all).build();
     }
 
