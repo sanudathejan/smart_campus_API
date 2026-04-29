@@ -1,0 +1,7 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.autobuild.enabled": false,
+    "files.watcherExclude": {
+        "**/target/**": true
+    }
+}
