@@ -39,6 +39,7 @@ public class RoomResource {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createRoom(Room room, @Context UriInfo uriInfo) {
         if (room == null || room.getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST)

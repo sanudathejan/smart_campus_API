@@ -44,6 +44,7 @@ public class SensorResource {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createSensor(Sensor sensor, @Context UriInfo uriInfo) {
         if (sensor == null || sensor.getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST)
