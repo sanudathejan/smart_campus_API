@@ -1,0 +1,279 @@
+{
+  "info": {
+    "_postman_id": "8c20fb3d-5c4c-4d9a-8f12-7f0e3e799001",
+    "name": "Smart Campus API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Discovery",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "2. List Rooms",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rooms",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rooms"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Create Room ENG-201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"ENG-201\",\n  \"name\": \"Engineering Lab\",\n  \"capacity\": 40\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rooms",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rooms"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Get Room ENG-201",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rooms/ENG-201",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rooms",
+            "ENG-201"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. Delete Room LIB-301",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rooms/LIB-301",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rooms",
+            "LIB-301"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. Create Sensor TEMP-ENG-201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"TEMP-ENG-201\",\n  \"type\": \"Temperature\",\n  \"status\": \"ACTIVE\",\n  \"currentValue\": 21.8,\n  \"roomId\": \"ENG-201\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/sensors",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensors"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Filter Sensors by Temperature",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sensors?type=Temperature",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensors"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "Temperature"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "8. Get Sensor TEMP-ENG-201",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sensors/TEMP-ENG-201",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensors",
+            "TEMP-ENG-201"
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. Get Readings TEMP-ENG-201",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sensors/TEMP-ENG-201/readings",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensors",
+            "TEMP-ENG-201",
+            "readings"
+          ]
+        }
+      }
+    },
+    {
+      "name": "10. Add Reading TEMP-ENG-201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"value\": 23.4\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/sensors/TEMP-ENG-201/readings",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensors",
+            "TEMP-ENG-201",
+            "readings"
+          ]
+        }
+      }
+    },
+    {
+      "name": "11. Add Reading OCC-001",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"value\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/sensors/OCC-001/readings",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensors",
+            "OCC-001",
+            "readings"
+          ]
+        }
+      }
+    },
+    {
+      "name": "12. Get Missing Room NO-ROOM",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rooms/NO-ROOM",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rooms",
+            "NO-ROOM"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/smart-campus-api/api/v1"
+    }
+  ]
+}
