@@ -45,7 +45,13 @@ public class SensorResource {
 
     @POST
     public Response createSensor(Sensor sensor, @Context UriInfo uriInfo) {
-        if (sensor == null || sensor.getId() == null || sensor.getId().trim().isEmpty()) {
+        if (sensor == null || sensor.getId() == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(new ErrorResponse(400, "Bad Request", "Sensor 'id' field is required."))
+                    .build();
+        }
+        if (sensor.getId().trim().isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .type(MediaType.APPLICATION_JSON)
                     .entity(new ErrorResponse(400, "Bad Request", "Sensor 'id' field is required."))
@@ -57,9 +63,15 @@ public class SensorResource {
                     .entity(new ErrorResponse(400, "Bad Request", "Sensor 'type' field is required."))
                     .build();
         }
-        if (sensor.getRoomId() == null || sensor.getRoomId().trim().isEmpty() || !store.getRooms().containsKey(sensor.getRoomId())) {
+        if (sensor.getRoomId() == null) {
             throw new LinkedResourceNotFoundException(
-                    "roomId '" + (sensor.getRoomId() != null ? sensor.getRoomId() : "") + "' does not exist. "
+                    "roomId is required. "
+                    + "Register the room first before assigning sensors to it."
+            );
+        }
+        if (sensor.getRoomId().trim().isEmpty() || !store.getRooms().containsKey(sensor.getRoomId())) {
+            throw new LinkedResourceNotFoundException(
+                    "roomId '" + sensor.getRoomId() + "' does not exist. "
                     + "Register the room first before assigning sensors to it."
             );
         }
@@ -90,7 +102,9 @@ public class SensorResource {
         if (sensor == null) {
             throw new ResourceNotFoundException("Sensor not found with ID: " + sensorId);
         }
-        return Response.ok(sensor).build();
+        return Response.ok(sensor)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @Path("/{sensorId}/readings")

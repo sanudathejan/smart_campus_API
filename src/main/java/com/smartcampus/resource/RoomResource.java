@@ -40,7 +40,13 @@ public class RoomResource {
 
     @POST
     public Response createRoom(Room room, @Context UriInfo uriInfo) {
-        if (room == null || room.getId() == null || room.getId().trim().isEmpty()) {
+        if (room == null || room.getId() == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(new ErrorResponse(400, "Bad Request", "Room 'id' field is required."))
+                    .build();
+        }
+        if (room.getId().trim().isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .type(MediaType.APPLICATION_JSON)
                     .entity(new ErrorResponse(400, "Bad Request", "Room 'id' field is required."))

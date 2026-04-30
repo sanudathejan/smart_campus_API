@@ -3,6 +3,7 @@ package com.smartcampus.resource;
 import java.util.List;
 
 import com.smartcampus.application.DataStore;
+import com.smartcampus.exception.ResourceNotFoundException;
 import com.smartcampus.exception.SensorUnavailableException;
 import com.smartcampus.model.ErrorResponse;
 import com.smartcampus.model.Sensor;
@@ -45,8 +46,14 @@ public class SensorReadingResource {
     @POST
     public Response addReading(SensorReading reading, @Context UriInfo uriInfo) {
         Sensor sensor = store.getSensors().get(sensorId);
+        
+        if (sensor == null) {
+            throw new ResourceNotFoundException(
+                    "Sensor not found with ID: " + sensorId
+            );
+        }
 
-        if ("MAINTENANCE".equalsIgnoreCase(sensor.getStatus())) {
+        if (sensor.getStatus() != null && "MAINTENANCE".equalsIgnoreCase(sensor.getStatus())) {
             throw new SensorUnavailableException(
                     "Sensor '" + sensorId + "' is currently under MAINTENANCE "
                     + "and cannot accept new readings."
