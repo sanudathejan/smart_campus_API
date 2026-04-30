@@ -38,7 +38,9 @@ public class SensorResource {
                 result.add(sensor);
             }
         }
-        return Response.ok(result).build();
+        return Response.ok(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @POST
@@ -55,9 +57,9 @@ public class SensorResource {
                     .entity(new ErrorResponse(400, "Bad Request", "Sensor 'type' field is required."))
                     .build();
         }
-        if (sensor.getRoomId() == null || !store.getRooms().containsKey(sensor.getRoomId())) {
+        if (sensor.getRoomId() == null || sensor.getRoomId().trim().isEmpty() || !store.getRooms().containsKey(sensor.getRoomId())) {
             throw new LinkedResourceNotFoundException(
-                    "roomId '" + sensor.getRoomId() + "' does not exist. "
+                    "roomId '" + (sensor.getRoomId() != null ? sensor.getRoomId() : "") + "' does not exist. "
                     + "Register the room first before assigning sensors to it."
             );
         }
@@ -76,6 +78,7 @@ public class SensorResource {
         store.getRooms().get(sensor.getRoomId()).getSensorIds().add(sensor.getId());
 
         return Response.created(uriInfo.getAbsolutePathBuilder().path(sensor.getId()).build())
+                .type(MediaType.APPLICATION_JSON)
                 .entity(sensor)
                 .build();
     }

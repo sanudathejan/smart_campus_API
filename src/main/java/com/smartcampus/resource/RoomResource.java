@@ -33,7 +33,9 @@ public class RoomResource {
     @GET
     public Response getAllRooms() {
         List<Room> rooms = new ArrayList<Room>(store.getRooms().values());
-        return Response.ok(rooms).build();
+        return Response.ok(rooms)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @POST
@@ -59,6 +61,7 @@ public class RoomResource {
         }
         store.getRooms().put(room.getId(), room);
         return Response.created(uriInfo.getAbsolutePathBuilder().path(room.getId()).build())
+                .type(MediaType.APPLICATION_JSON)
                 .entity(room)
                 .build();
     }
@@ -70,7 +73,9 @@ public class RoomResource {
         if (room == null) {
             throw new ResourceNotFoundException("Room not found with ID: " + roomId);
         }
-        return Response.ok(room).build();
+        return Response.ok(room)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @DELETE
@@ -78,11 +83,7 @@ public class RoomResource {
     public Response deleteRoom(@PathParam("roomId") String roomId) {
         Room room = store.getRooms().get(roomId);
         if (room == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(new ErrorResponse(404, "Not Found",
-                            "Room not found with ID: " + roomId))
-                    .build();
+            throw new ResourceNotFoundException("Room not found with ID: " + roomId);
         }
         if (!room.getSensorIds().isEmpty()) {
             throw new RoomNotEmptyException(

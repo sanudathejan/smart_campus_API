@@ -47,7 +47,9 @@ public class DiscoveryResource {
                 "Get or append historical readings for a sensor"));
         response.put("resources", resources);
 
-        return Response.ok(response).build();
+        return Response.ok(response)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     private Map<String, Object> buildLink(UriInfo uriInfo, String relativePath,

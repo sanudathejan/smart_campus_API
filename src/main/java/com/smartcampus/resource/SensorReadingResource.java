@@ -1,10 +1,13 @@
 package com.smartcampus.resource;
 
+import java.util.List;
+
 import com.smartcampus.application.DataStore;
 import com.smartcampus.exception.SensorUnavailableException;
 import com.smartcampus.model.ErrorResponse;
 import com.smartcampus.model.Sensor;
 import com.smartcampus.model.SensorReading;
+
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -13,7 +16,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import java.util.List;
 
 /**
  * Part 4 - Sub-resource for sensor readings.
@@ -35,7 +37,9 @@ public class SensorReadingResource {
     @GET
     public Response getReadings() {
         List<SensorReading> history = store.getReadingsForSensor(sensorId);
-        return Response.ok(history).build();
+        return Response.ok(history)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @POST
@@ -62,6 +66,7 @@ public class SensorReadingResource {
         sensor.setCurrentValue(newReading.getValue());
 
         return Response.created(uriInfo.getAbsolutePathBuilder().path(newReading.getId()).build())
+                .type(MediaType.APPLICATION_JSON)
                 .entity(newReading)
                 .build();
     }
