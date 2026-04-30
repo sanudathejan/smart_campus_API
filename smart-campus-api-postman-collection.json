@@ -1,0 +1,500 @@
+{
+  "info": {
+    "name": "Smart Campus API",
+    "description": "Complete test collection for Smart Campus Sensor & Room Management API",
+    "version": "1.0"
+  },
+  "item": [
+    {
+      "name": "PART 1 - Discovery",
+      "item": [
+        {
+          "name": "Get API Discovery",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PART 2 - Room Management",
+      "item": [
+        {
+          "name": "2.1 Get All Rooms",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms"]
+            }
+          }
+        },
+        {
+          "name": "2.2 Create New Room",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":\"ENG-201\",\"name\":\"Engineering Workshop\",\"capacity\":40}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms"]
+            }
+          }
+        },
+        {
+          "name": "2.3 Get Room (LIB-301)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms/LIB-301",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms", "LIB-301"]
+            }
+          }
+        },
+        {
+          "name": "2.4 Get Room (Non-existent) - 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms/NO-ROOM",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms", "NO-ROOM"]
+            }
+          }
+        },
+        {
+          "name": "2.5 Delete Room (Empty) - 204",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms/ENG-201",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms", "ENG-201"]
+            }
+          }
+        },
+        {
+          "name": "2.6 Delete Room (With Sensors) - 409",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms/LIB-301",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms", "LIB-301"]
+            }
+          }
+        },
+        {
+          "name": "2.7 Create Room (Missing ID) - 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Test Room\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PART 3 - Sensor Operations",
+      "item": [
+        {
+          "name": "3.1 Get All Sensors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors"]
+            }
+          }
+        },
+        {
+          "name": "3.2 Get Sensors (Filter: Temperature)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors?type=Temperature",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "Temperature"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.3 Get Sensors (Filter: CO2)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors?type=CO2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "CO2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.4 Get Specific Sensor",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors/TEMP-001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors", "TEMP-001"]
+            }
+          }
+        },
+        {
+          "name": "3.5 Get Sensor (Non-existent) - 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors/INVALID",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors", "INVALID"]
+            }
+          }
+        },
+        {
+          "name": "3.6 Create New Sensor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":\"LIGHT-001\",\"type\":\"Lighting\",\"roomId\":\"LIB-301\",\"status\":\"ACTIVE\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors"]
+            }
+          }
+        },
+        {
+          "name": "3.7 Create Sensor (Invalid Room) - 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":\"TEMP-002\",\"type\":\"Temperature\",\"roomId\":\"INVALID-ROOM\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PART 4 - Sensor Readings",
+      "item": [
+        {
+          "name": "4.1 Get Readings (TEMP-001)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors/TEMP-001/readings",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors", "TEMP-001", "readings"]
+            }
+          }
+        },
+        {
+          "name": "4.2 Add Reading to Sensor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"value\":23.5}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors/TEMP-001/readings",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors", "TEMP-001", "readings"]
+            }
+          }
+        },
+        {
+          "name": "4.3 Add Sensor (In Maintenance) - 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"value\":10}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors/OCC-001/readings",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors", "OCC-001", "readings"]
+            }
+          }
+        },
+        {
+          "name": "4.4 Get Readings (Non-existent Sensor) - 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors/INVALID/readings",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors", "INVALID", "readings"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PART 5 - Error Handling",
+      "item": [
+        {
+          "name": "5.1 Delete Room with Sensors - 409 Conflict",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms/LIB-301",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms", "LIB-301"]
+            }
+          }
+        },
+        {
+          "name": "5.2 Create Sensor (Invalid RoomId) - 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":\"TEST-SENSOR\",\"type\":\"Temperature\",\"roomId\":\"NONEXISTENT\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors"]
+            }
+          }
+        },
+        {
+          "name": "5.3 Add Reading (Maintenance Sensor) - 403 Forbidden",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"value\":10}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/sensors/OCC-001/readings",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "sensors", "OCC-001", "readings"]
+            }
+          }
+        },
+        {
+          "name": "5.4 Get Non-existent Room - 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/smart-campus-api/api/v1/rooms/NONEXISTENT",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["smart-campus-api", "api", "v1", "rooms", "NONEXISTENT"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
